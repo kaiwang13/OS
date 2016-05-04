@@ -2,8 +2,8 @@
 	使用beyond compare，将lab2的内容进行merge
 
 ##练习1：给未被映射的地址映射上物理页
-###1.1 设计思路：修改do_pgfault()函数：
-
+###1.1 设计思路
+修改do_pgfault()函数：
 	1. 获取发生缺页错误的PTE 
 	2. 若pte = 0，则虚页不存在, 使用pgdir_alloc_page分配；
 	3. 若pte = 1，则虚页存在，使用swap_in函数从外存中换入即可。
