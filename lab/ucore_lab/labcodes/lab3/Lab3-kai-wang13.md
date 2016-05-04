@@ -1,11 +1,11 @@
 ##练习0 填写已有实验
-	使用的是beyond compare工具，很方便的比较和合并
+	使用beyond compare，将lab2的内容进行merge
 
 ##练习1：给未被映射的地址映射上物理页
 设计思路：修改do_pgfault()函数：
 
 	1. 获取发生缺页错误的PTE 
-	2. 若pte = 0, 则虚页不存在, 使用pgdir_alloc_page分配；
+	2. 若pte = 0，则虚页不存在, 使用pgdir_alloc_page分配；
 	3. 若pte = 1，则虚页存在，使用swap_in函数从外存中换入即可。
 
 ###请描述页目录项(Pag Director Entry)和页表(Page Table Entry)中组成部分对ucore实现页替换算法的潜在用处。
