@@ -53,9 +53,6 @@ idt_init(void) {
     for (i = 0; i < sizeof(idt) / sizeof(struct gatedesc); i ++) {
         SETGATE(idt[i], 0, GD_KTEXT, __vectors[i], DPL_KERNEL);
     }
-	// set for switch from user to kernel
-    SETGATE(idt[T_SWITCH_TOK], 0, GD_KTEXT, __vectors[T_SWITCH_TOK], DPL_USER);
-	// load the IDT
     lidt(&idt_pd);
 }
 
@@ -185,7 +182,11 @@ trap_dispatch(struct trapframe *tf) {
         }
         break;
     case IRQ_OFFSET + IRQ_TIMER:
-        /* LAB1 YOUR 2013010617 : STEP 3 */
+#if 0
+    LAB3  CHALLENGE 1 : If some page replacement algorithm(such as CLOCK PRA) need tick to change the priority of pages, 
+    then you can add code here. 
+#endif
+        /* LAB1 2013010617 : STEP 3 */
         /* handle the timer interrupt */
         /* (1) After a timer interrupt, you should record this event using a global variable (increase it), such as ticks in kern/driver/clock.c
          * (2) Every TICK_NUM cycle, you can print some info using a funciton, such as print_ticks().
