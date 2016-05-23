@@ -10,7 +10,7 @@
 #include <vmm.h>
 #include <swap.h>
 #include <kdebug.h>
-#include <string.h>
+
 #define TICK_NUM 100
 
 static void print_ticks() {
