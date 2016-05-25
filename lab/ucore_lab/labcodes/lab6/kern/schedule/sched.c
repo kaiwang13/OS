@@ -30,7 +30,7 @@ sched_class_pick_next(void) {
     return sched_class->pick_next(rq);
 }
 
-static void
+void
 sched_class_proc_tick(struct proc_struct *proc) {
     if (proc != idleproc) {
         sched_class->proc_tick(rq, proc);
@@ -87,11 +87,10 @@ schedule(void) {
         }
         if ((next = sched_class_pick_next()) != NULL) {
             sched_class_dequeue(next);
-        }
-        if (next == NULL) {
+        } else {
             next = idleproc;
         }
-        next->runs ++;
+        next->runs++;
         if (next != current) {
             proc_run(next);
         }
