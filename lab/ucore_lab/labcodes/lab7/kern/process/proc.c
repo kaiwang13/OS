@@ -109,6 +109,16 @@ alloc_proc(void) {
      *       uint32_t wait_state;                        // waiting state
      *       struct proc_struct *cptr, *yptr, *optr;     // relations between processes
 	 */
+     //LAB6 YOUR CODE : (update LAB5 steps)
+    /*
+     * below fields(add in LAB6) in proc_struct need to be initialized
+     *     struct run_queue *rq;                       // running queue contains Process
+     *     list_entry_t run_link;                      // the entry linked in run queue
+     *     int time_slice;                             // time slice for occupying the CPU
+     *     skew_heap_entry_t lab6_run_pool;            // FOR LAB6 ONLY: the entry in the run pool
+     *     uint32_t lab6_stride;                       // FOR LAB6 ONLY: the current stride of the process
+     *     uint32_t lab6_priority;                     // FOR LAB6 ONLY: the priority of process, set by lab6_set_priority(uint32_t)
+     */
         proc->state = PROC_UNINIT;
         proc->pid = -1;
         proc->runs = 0;
@@ -426,7 +436,6 @@ do_fork(uint32_t clone_flags, uintptr_t stack, struct trapframe *tf) {
     if ((proc = alloc_proc()) == NULL) {
         goto fork_out;
     }
-
     proc->parent = current;
     assert(current->wait_state == 0);
 
@@ -437,20 +446,17 @@ do_fork(uint32_t clone_flags, uintptr_t stack, struct trapframe *tf) {
         goto bad_fork_cleanup_kstack;
     }
     copy_thread(proc, stack, tf);
-
     bool intr_flag;
     local_intr_save(intr_flag);
     {
         proc->pid = get_pid();
         hash_proc(proc);
         set_links(proc);
-
     }
     local_intr_restore(intr_flag);
-
     wakeup_proc(proc);
-
     ret = proc->pid;
+	
 fork_out:
     return ret;
 
