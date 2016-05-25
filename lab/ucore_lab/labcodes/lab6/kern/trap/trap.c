@@ -232,6 +232,7 @@ trap_dispatch(struct trapframe *tf) {
          *    Every TICK_NUM cycle, you should set current process's current->need_resched = 1
          */
         ticks ++;
+		sched_class_proc_tick(current);
         assert(current != NULL);
         break;
     case IRQ_OFFSET + IRQ_COM1:
